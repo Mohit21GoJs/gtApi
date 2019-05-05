@@ -1,45 +1,86 @@
-import { PureComponent } from 'react';
+import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import './App.css';
 import AppBar from './components/AppBar';
 import Search from './components/Search';
+import ListComponent from './components/ListComponent';
+import { getData } from './helpers/api';
 
 const styles = () => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#eeeeee',
-    height: '100vh',
+    minHeight: '100vh',
   },
   content: {
     paddingTop: '2vh',
     paddingLeft: '2vw',
   },
+  divideCards: {
+    marginTop: 10,
+  },
 });
 
 class App extends PureComponent {
   state = {
-    disableSearchBtn: true,
+    loadingGists: false,
+    gists: [],
+    username: '',
   };
 
-  searchHandler = () => {};
+  checkSearchBtnDisabled = () =>
+    !this.state.username || this.state.loadingGists;
+
+  makeGistUrl = username => `https://api.github.com/users/${username}/gists`;
+  usernameHandler = val =>
+    this.setState({
+      username: val,
+    });
+
+  seachForGists = () => {
+    const url = this.makeGistUrl(this.state.username);
+    this.setState({
+      loadingGists: true,
+    });
+    getData(url)
+      .then((data) => {
+        if (data) {
+          this.setState({
+            gists: data,
+            loadingGists: false,
+          });
+        }
+      })
+      // eslint-disable-next-line no-console
+      .catch(console.error);
+  };
 
   render() {
     const { classes } = this.props;
+    const { gists } = this.state;
     return (
       <div className={classes.root}>
-        <AppBar appTitle="Social Github" navigateToGithub={() => {}} />
+        <AppBar appTitle="Gist Tracker" navigateToGithub={() => {}} />
         <Grid className={classes.content} spacing={100} container>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} md={4}>
             <Search
-              searchHandler={() => {}}
-              isSeachBtnDisabled={this.state.disableSearchBtn}
+              usernameHandler={this.usernameHandler}
+              searchHandler={this.seachForGists}
+              isSeachBtnDisabled={this.checkSearchBtnDisabled()}
             />
           </Grid>
           <Grid item sm={1} />
-          <Grid item xs={12} sm={6}>
-            Hello
+          <Grid item xs={12} md={6}>
+            {gists && gists.length
+              ? gists.map(gist => (
+                <Fragment>
+                  <ListComponent gist={gist} />
+                  <div className={classes.divideCards} />
+                </Fragment>
+                ))
+              : null}
           </Grid>
         </Grid>
       </div>

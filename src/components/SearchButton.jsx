@@ -6,7 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const styles = () => ({
   root: {
-    width: '90%',
+    width: '80%',
   },
 });
 
