@@ -1,10 +1,12 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import './App.css';
 
-export default class App extends Component {
+export default class App extends PureComponent {
   state = {
     name: 'gt',
   };
+
+  searchHandler = () => {};
 
   render() {
     return (
