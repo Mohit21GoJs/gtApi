@@ -26,6 +26,7 @@ const styles = () => ({
   },
   chip: {
     marginRight: 5,
+    marginTop: '1vh',
   },
 });
 
@@ -49,13 +50,13 @@ function ListComponent(props) {
             <Grid container justify="left" spacing={100}>
               {files && files.length
                 ? files.map(file => (
-                  <Chip
-                    label={gist.files[file].type}
-                    clickable
-                    className={classes.chip}
-                    color="primary"
-                    variant="outlined"
-                  />
+                    <Chip
+                      label={gist.files[file].type}
+                      clickable
+                      className={classes.chip}
+                      color="primary"
+                      variant="outlined"
+                    />
                   ))
                 : null}
             </Grid>
@@ -69,12 +70,12 @@ function ListComponent(props) {
               ) : null}
               {forkForGist && forkForGist.data && forkForGist.data.length
                 ? forkForGist.data.map(fork => (
-                  <a href={fork.html_url}>
-                    <Avatar
-                      alt={fork.owner.login}
-                      src={fork.owner.avatar_url}
-                    />
-                  </a>
+                    <a href={fork.html_url}>
+                      <Avatar
+                        alt={fork.owner.login}
+                        src={fork.owner.avatar_url}
+                      />
+                    </a>
                   ))
                 : null}
             </Grid>

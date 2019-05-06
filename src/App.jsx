@@ -2,13 +2,13 @@ import { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
+import Hidden from '@material-ui/core/Hidden';
 import './App.css';
 import AppBar from './components/AppBar';
 import Search from './components/Search';
 import ListComponent from './components/ListComponent';
 import GistLoader from './components/GistLoader';
 import { getData } from './helpers/api';
-import { Hidden } from '@material-ui/core';
 
 const styles = () => ({
   root: {
@@ -79,12 +79,16 @@ class App extends PureComponent {
           loadingGists: false,
         });
       }
+      // eslint-disable-next-line no-unused-expressions
       Array.isArray(gists) && gists.forEach(this.fetchGistUsers);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('error is', e);
     }
   };
+
+  navigateToGithubHandler = () =>
+    window.open('https://github.com/Mohit21GoJs/gtApi', '_blank');
 
   render() {
     const { classes } = this.props;
@@ -93,7 +97,10 @@ class App extends PureComponent {
     debugger;
     return (
       <div className={classes.root}>
-        <AppBar appTitle="Gist Tracker" navigateToGithub={() => {}} />
+        <AppBar
+          appTitle="Gist Tracker"
+          navigateToGithub={this.navigateToGithubHandler}
+        />
         <Grid className={classes.content} spacing={100} container>
           <Grid item xs={12} md={4}>
             <Search
