@@ -49,7 +49,8 @@ function ListComponent(props) {
           <Grid item xs={12}>
             <Grid container justify="left" spacing={100}>
               {files && files.length
-                ? files.map(file => (
+                ? // eslint-disable-next-line react/jsx-indent
+                  files.map(file => (
                     <Chip
                       label={gist.files[file].type}
                       clickable
@@ -68,8 +69,10 @@ function ListComponent(props) {
               {forkForGist && forkForGist.isLoading ? (
                 <CircularProgress />
               ) : null}
-              {forkForGist && forkForGist.data && forkForGist.data.length
+              {// eslint-disable-next-line react/jsx-indent
+              forkForGist && forkForGist.data && forkForGist.data.length
                 ? forkForGist.data.map(fork => (
+                    // eslint-disable-next-line react/jsx-indent
                     <a href={fork.html_url}>
                       <Avatar
                         alt={fork.owner.login}
