@@ -8,6 +8,7 @@ import Search from './components/Search';
 import ListComponent from './components/ListComponent';
 import GistLoader from './components/GistLoader';
 import { getData } from './helpers/api';
+import { Hidden } from '@material-ui/core';
 
 const styles = () => ({
   root: {
@@ -18,6 +19,9 @@ const styles = () => ({
   content: {
     paddingTop: '2vh',
     paddingLeft: '2vw',
+  },
+  separator: {
+    marginTop: '2vh',
   },
   divideCards: {
     marginTop: 10,
@@ -98,7 +102,10 @@ class App extends PureComponent {
               isSeachBtnDisabled={this.checkSearchBtnDisabled()}
             />
           </Grid>
-          <Grid item sm={1} />
+          <Grid item xs={12} md={1} />
+          <Hidden mdUp>
+            <div className={classes.separator} />
+          </Hidden>
           <Grid item xs={12} md={6}>
             {loadingGists ? <GistLoader /> : null}
             {gists && gists.length

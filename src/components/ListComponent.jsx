@@ -15,6 +15,10 @@ const styles = () => ({
     padding: '2vh',
     borderBottom: '1px',
   },
+  separator: {
+    marginTop: '2vh',
+  },
+
   textField: {
     marginLeft: 2,
     marginRight: 2,
@@ -27,8 +31,6 @@ const styles = () => ({
 
 function ListComponent(props) {
   const { classes, gist, forkForGist } = props;
-  // eslint-disable-next-line no-debugger
-  // debugger;
   const files = Object.keys(gist.files) || [];
   return (
     <Card className={classes.root}>
@@ -37,9 +39,10 @@ function ListComponent(props) {
         <Grid container spacing={90} alignItems="center">
           {gist.description ? (
             <Grid item xs={12}>
-              <Typography variant="subheading">
+              <Typography variant="subheading1">
                 Description: {gist.description}
               </Typography>
+              <div className={classes.separator} />
             </Grid>
           ) : null}
           <Grid item xs={12}>
@@ -56,7 +59,9 @@ function ListComponent(props) {
                   ))
                 : null}
             </Grid>
+            <div className={classes.separator} />
           </Grid>
+
           <Grid item xs={12}>
             <Grid container justify="left" spacing={100}>
               {forkForGist && forkForGist.isLoading ? (
