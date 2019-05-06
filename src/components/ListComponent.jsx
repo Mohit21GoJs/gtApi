@@ -6,6 +6,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Typography } from '@material-ui/core';
 
 const styles = () => ({
@@ -24,7 +26,9 @@ const styles = () => ({
 });
 
 function ListComponent(props) {
-  const { classes, gist } = props;
+  const { classes, gist, forkForGist } = props;
+  // eslint-disable-next-line no-debugger
+  // debugger;
   const files = Object.keys(gist.files) || [];
   return (
     <Card className={classes.root}>
@@ -36,21 +40,40 @@ function ListComponent(props) {
               <Typography variant="subheading">
                 Description: {gist.description}
               </Typography>
-            </Grid>) : null}
+            </Grid>
+          ) : null}
           <Grid item xs={12}>
-            {files &&
-              files.length &&
-              files.map(file => (
-                <Chip
-                  label={gist.files[file].type}
-                  clickable
-                  className={classes.chip}
-                  color="primary"
-                  variant="outlined"
-                />
-              ))}
+            <Grid container justify="left" spacing={100}>
+              {files && files.length
+                ? files.map(file => (
+                    <Chip
+                      label={gist.files[file].type}
+                      clickable
+                      className={classes.chip}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  ))
+                : null}
+            </Grid>
           </Grid>
-          <Grid item xs={12} />
+          <Grid item xs={12}>
+            <Grid container justify="left" spacing={100}>
+              {forkForGist && forkForGist.isLoading ? (
+                <CircularProgress />
+              ) : null}
+              {forkForGist && forkForGist.data && forkForGist.data.length
+                ? forkForGist.data.map(fork => (
+                    <a href={fork.html_url}>
+                      <Avatar
+                        alt={fork.owner.login}
+                        src={fork.owner.avatar_url}
+                      />
+                    </a>
+                  ))
+                : null}
+            </Grid>
+          </Grid>
         </Grid>
       </CardContent>
     </Card>
@@ -60,6 +83,7 @@ function ListComponent(props) {
 ListComponent.propTypes = {
   classes: PropTypes.shape().isRequired,
   gist: PropTypes.shape(),
+  forkForGist: PropTypes.shape().isRequired,
 };
 
 ListComponent.defaultProps = {
