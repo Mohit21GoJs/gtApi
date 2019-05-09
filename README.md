@@ -1,7 +1,7 @@
 ## Gist Viewer
 
 
-#### Pre-resuisites
+#### Pre-requisites
 * Node.js - install with nvm
 * install yarn with `npm install -g yarn`
 
